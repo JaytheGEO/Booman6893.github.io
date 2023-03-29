@@ -32,7 +32,7 @@ var poly = L.polygon(polygonPoints).addTo(map);
 
   // load a tile layer
 var wmsLayer = L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
-    layers: 'OSM-WMS'
+    layers: 'TOPO-OSM-WMS'
 }).addTo(map);
 
 L.geoJSON(PointsLayer).addTo(map);
