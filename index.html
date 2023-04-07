@@ -55,16 +55,16 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //function formats the shape color based on the attribute d's value
 
 function getColor(IllioisGJSON) {
-    return IllioisGJSON > 35.19  ? '#BD0026' :
-           IllioisGJSON > 22.91  ? '#E31A1C' :
-           IllioisGJSON > 12.87  ? '#FC4E2A' :
-           IllioisGJSON > 0  ? '#FD8D3C' :
+    return Clean_data_NormBach > 35.19  ? '#BD0026' :
+           Clean_data_NormBach > 22.91  ? '#E31A1C' :
+           Clean_data_NormBach > 12.87  ? '#FC4E2A' :
+           Clean_data_NormBach > 0  ? '#FD8D3C' :
                       '#FFEDA0';
 }
     
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.IllioisGJSON), //color by density attribute
+        fillColor: getColor(feature.properties.Clean_data_NormBach), //color by density attribute
         weight: 0.5, //line weight
         opacity: 1, //line opacity
         color: 'black', //line color
@@ -72,7 +72,7 @@ function style(feature) {
     };
 }
 
-		const IllioisGeoJSON = L.geoJson(IllioisGJSON, {
+		const IllinoisGeoJSON = L.geoJson(IllioisGJSON, {
 			style, //refers to the style function above
 		}).addTo(map);
 //Remember - IllioisGJSON is the variable name inside your Lab2.JS file
