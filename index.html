@@ -55,10 +55,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //function formats the shape color based on the attribute d's value
 
 function getColor(IllioisGJSON) {
-    return EdNorm > 35.19  ? '#BD0026' :
-           EdNorm > 22.91  ? '#E31A1C' :
-           EdNorm > 12.87  ? '#FC4E2A' :
-           EdNorm > 0  ? '#FD8D3C' :
+    return IllioisGJSON > 35.19  ? '#BD0026' :
+           IllioisGJSON > 22.91  ? '#E31A1C' :
+           IllioisGJSON > 12.87  ? '#FC4E2A' :
+           IllioisGJSON > 0  ? '#FD8D3C' :
                       '#FFEDA0';
 }
     
