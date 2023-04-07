@@ -71,6 +71,19 @@ function style(feature) {
         fillOpacity: 0.7 //shape file
     };
 }
+function highlightFeature(e) {
+		const layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: 'white',
+			fillOpacity: 0.9
+		});
+
+		layer.bringToFront();
+
+		//info.update(layer.feature.properties); //we will use this in a bit.
+	}
 
 	const IllinoisGeoJSON = L.geoJson(IllioisGJSON, {
 			style, //refers to the style function above
