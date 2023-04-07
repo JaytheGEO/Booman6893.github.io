@@ -84,10 +84,21 @@ function highlightFeature(e) {
 
 		//info.update(layer.feature.properties); //we will use this in a bit.
 	}
-
-	const IllinoisGeoJSON = L.geoJson(IllioisGJSON, {
-			style, //refers to the style function above
-		}).addTo(map);
+function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		//info.update();
+	}
+function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			//click: zoomToFeature
+		});
+	
+	const geojson = L.geoJson(IllioisGJSON, {
+		style,
+		onEachFeature //This is the important new function connection 
+	}).addTo(map);
 //Remember - IllioisGJSON is the variable name inside your Lab2.JS file
  //locates the legend in the bottom right of the map
 var legend = L.control({position: 'bottomright'});
