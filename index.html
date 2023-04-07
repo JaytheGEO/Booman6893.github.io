@@ -72,7 +72,7 @@ function style(feature) {
     };
 }
 function highlightFeature(Clean_data_NormBach) {
-		const layer = e.target;
+		const layer = Clean_data_NormBach.target;
 
 		layer.setStyle({
 			weight: 5,
@@ -84,16 +84,13 @@ function highlightFeature(Clean_data_NormBach) {
 
 		//info.update(layer.feature.properties); //we will use this in a bit.
 	}
-const geojson = L.geoJson(IllioisGJSON, {
-		style,
-		onEachFeature //This is the important new function connection 
-	}).addTo(map);
+
 function resetHighlight(Clean_data_NormBach) {
-		geojson.resetStyle(e.target);
+		geojson.resetStyle(Clean_data_NormBach.target);
 		//info.update();
 	}
-function zoomToFeature(e) {
-map.fitBounds(e.target.getBounds());
+function zoomToFeature(Clean_data_NormBach) {
+map.fitBounds(Clean_data_NormBach.target.getBounds());
 }	  
 function onEachFeature(feature, layer) {
 		layer.on({
@@ -101,7 +98,10 @@ function onEachFeature(feature, layer) {
 			mouseout: resetHighlight,
 			//click: zoomToFeature
 		});	
-	
+const geojson = L.geoJson(IllioisGJSON, {
+		style,
+		onEachFeature //This is the important new function connection 
+	}).addTo(map);	
 		
 //Remember - IllioisGJSON is the variable name inside your Lab2.JS file
  //locates the legend in the bottom right of the map
