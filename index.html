@@ -54,78 +54,71 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 //function formats the shape color based on the attribute d's value
 
+//Choropleth Color & Classification Setting
 function getColor(Clean_data_NormBach) {
-    return Clean_data_NormBach > 35.19  ? '#BD0026' :
-           Clean_data_NormBach > 22.91  ? '#E31A1C' :
-           Clean_data_NormBach > 12.87  ? '#FC4E2A' :
-           Clean_data_NormBach > 0  ? '#FD8D3C' :
-                      '#FFEDA0';
+return Clean_data_NormBach > 35.19 ? '#BD0026' :
+Clean_data_NormBach > 22.91 ? '#E31A1C' :
+Clean_data_NormBach > 12.87 ? '#FC4E2A' :
+Clean_data_NormBach > 0 ? '#FD8D3C' :
+'#FFEDA0';
 }
-    
 function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.Clean_data_NormBach), //color by density attribute
-        weight: 0.5, //line weight
-        opacity: 1, //line opacity
-        color: 'black', //line color
-        fillOpacity: 0.7 //shape file
-    };
-}
-function highlightFeature(Clean_data_NormBach) {
-		const layer = Clean_data_NormBach.target;
-
-		layer.setStyle({
-			weight: 5,
-			color: 'white',
-			fillOpacity: 0.9
-		});
-
-		layer.bringToFront();
-
-		//info.update(layer.feature.properties); //we will use this in a bit.
-	}
-
-function resetHighlight(Clean_data_NormBach) {
-		geojson.resetStyle(Clean_data_NormBach.target);
-		//info.update();
-	}
-function zoomToFeature(Clean_data_NormBach) {
-map.fitBounds(Clean_data_NormBach.target.getBounds());
-}	  
-function onEachFeature(feature, layer) {
-		layer.on({
-			mouseover: highlightFeature,
-			mouseout: resetHighlight,
-			//click: zoomToFeature
-		});	
-const geojson = L.geoJson(IllioisGJSON, {
-		style,
-		onEachFeature //This is the important new function connection 
-	}).addTo(map);	
-		
-//Remember - IllioisGJSON is the variable name inside your Lab2.JS file
- //locates the legend in the bottom right of the map
-var legend = L.control({position: 'bottomright'});
-
-//adds the legend to the map in a <div> 
-legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [10.5 , 17.5, 27.5],
-        labels = [];
-
-// loop through our EdNorm intervals and generate a label and colored square
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-    }
-
-    return div;
+return {
+fillColor: getColor(feature.properties.Clean_data_NormBach), //color by EdNorm attribute from your file
+weight: 0.5, //line weight
+opacity: 1, //line opacity
+color: 'white', //line color
+fillOpacity: 0.7 //shape file
 };
-
-//adds the legend to the map
+}
+//INTERACTION - Highlight
+function highlightFeature(Clean_data_NormBach) {
+const layer = Clean_data_NormBach.target;
+layer.setStyle({
+weight: 5,
+color: '#666',
+dashArray: '',
+fillOpacity: 0.7
+});
+layer.bringToFront();
+info.update(layer.feature.properties);
+}
+const geojson = L.geoJson(IllioisGJSON, {
+style,
+onEachFeature
+}).addTo(map);
+function resetHighlight(Clean_data_NormBach) {
+geojson.resetStyle(e.target);
+info.update();
+}
+function zoomToFeature(Clean_data_NormBach) {
+map.fitBounds(e.target.getBounds());
+}
+function onEachFeature(feature, layer) {
+layer.on({
+mouseover: highlightFeature,
+mouseout: resetHighlight,
+click: zoomToFeature
+});
+}
+// LEGEND
+//locates the legend in the bottom right of the map
+const legend = L.control({position: 'bottomright'});
+//adds the legend to the map in a <div>
+legend.onAdd = function (map) {
+const div = L.DomUtil.create('div', 'info legend');
+const grades = [0, 12.87, 22.91, 35.19];
+const labels = [];
+let from, to;
+for (let i = 0; i < grades.length; i++) {
+from = grades[i];
+to = grades[i + 1];
+labels.push(`<i style="background:${getColor(from + 1)}"></i> ${from}${to ? `&ndash;${to}` : '+'}`+'%');
+}
+div.innerHTML = labels.join('<br>');
+return div;
+};
 legend.addTo(map);
-  </script>
+</script>
 </body>
 </html>
