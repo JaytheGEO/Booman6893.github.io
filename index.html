@@ -54,7 +54,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 //function formats the shape color based on the attribute d's value
 
-function getColor(Clean_data_BachDegrees) {
+function getColor(EdNorm) {
     return EdNorm > 35.19  ? '#BD0026' :
            EdNorm > 22.91  ? '#E31A1C' :
            EdNorm > 12.87  ? '#FC4E2A' :
@@ -64,7 +64,7 @@ function getColor(Clean_data_BachDegrees) {
     
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.Clean_data_BachDegrees), //color by density attribute
+        fillColor: getColor(feature.properties.EdNorm), //color by density attribute
         weight: 0.5, //line weight
         opacity: 1, //line opacity
         color: 'black', //line color
