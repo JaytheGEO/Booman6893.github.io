@@ -88,11 +88,11 @@ style,
 onEachFeature
 }).addTo(map);
 function resetHighlight(Clean_data_NormBach) {
-geojson.resetStyle(e.target);
+geojson.resetStyle(Clean_data_NormBach.target);
 info.update();
 }
 function zoomToFeature(Clean_data_NormBach) {
-map.fitBounds(e.target.getBounds());
+map.fitBounds(Clean_data_NormBach.target.getBounds());
 }
 function onEachFeature(feature, layer) {
 layer.on({
