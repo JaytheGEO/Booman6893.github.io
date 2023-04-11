@@ -105,16 +105,18 @@ weight: 5,
 color: '#666',
 dashArray: '',
 fillOpacity: 0.7
-});
+}); info.update(layer.feature.properties);
+
 layer.bringToFront();
 info.update(layer.feature.properties);
-}
+
 const geojson = L.geoJson(IllioisGJSON, {
 style,
 onEachFeature
 }).addTo(map);
 L.geoJSON(Schools).addTo(map);
-function resetHighlight(Clean_data_NormBach) {
+function resetHighlight(Clean_data_NormBach);
+info.update();}
 geojson.resetStyle(Clean_data_NormBach.target);
 info.update();
 }
