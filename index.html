@@ -106,17 +106,15 @@ color: '#666',
 dashArray: '',
 fillOpacity: 0.7
 }); 
-	
 layer.bringToFront();
 info.update(layer.feature.properties);
-
+}
 const geojson = L.geoJson(IllioisGJSON, {
 style,
 onEachFeature
 }).addTo(map);
 L.geoJSON(Schools).addTo(map);
-function resetHighlight(Clean_data_NormBach);
-
+function resetHighlight(Clean_data_NormBach) {
 geojson.resetStyle(Clean_data_NormBach.target);
 info.update();
 }
