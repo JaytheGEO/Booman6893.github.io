@@ -73,8 +73,8 @@ info.onAdd = function (map) {
     return this._div;
 };
  
-info.update = function (Lab2.js) {
-	const contents = Lab2.js ? `<b>${Clean_data_NormBach} %</b><br />${Clean_data_CountyName}` : 'Hover over a county';
+info.update = function (IllioisGJSON) {
+	const contents = IllioisGJSON ? `<b>${IllioisGJSON.Clean_data_NormBach} %</b><br />${IllioisGJSON.Clean_data_CountyName}` : 'Hover over a county';
 	this._div.innerHTML = `<h4>Population with Bachelor's Degree</h4>${contents}`;
 };
 
