@@ -54,10 +54,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var popup = L.popup();
 
-function onMapClick(Clean_data_NormBach) {
+function onMapClick(e) {
     popup
-        .setLatLng(Clean_data_NormBach.latlng)
-        .setContent("You clicked the map at " + Clean_data_NormBach.latlng.toString())
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
         .openOn(map);
 }
 
