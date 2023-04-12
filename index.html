@@ -7,6 +7,8 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
     crossorigin=""></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="leaflet-heat.js"></script>
    <style>
 .info {
     padding: 6px 8px;
@@ -53,6 +55,27 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 L.geoJSON(Schools).addTo(map);
 
+var heatData = [];
+	geojsonLayer.eachLayer(function(Schools) {
+		var latlng = layer.getLatLng();
+		var value = layer.value;
+		heatData.push([latlng.lat, latlng.lng, value]);
+	});
+    
+var heatLayer = L.heatLayer(heatData, {
+				radius: 100,
+				blur: 10,
+				opacity: 1,
+				maxZoom: 17,
+				max: 4.0,
+				
+				gradient: {
+					0.0: 'green',
+					0.5: 'yellow',
+					1.0: 'red'}
+        
+			}).addTo(map);
+		});
 </script>
 </body>
 </html>
