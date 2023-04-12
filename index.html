@@ -49,7 +49,7 @@ width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-
+L.geoJSON(secondEd.geojson).addTo(map);
 var popup = L.popup();
 
 function onMapClick(e) {
