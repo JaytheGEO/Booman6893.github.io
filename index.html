@@ -54,19 +54,18 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 L.geoJSON(Schools).addTo(map);	  
 	  
-$.getJSON("secondEd.geojson",
- function(Schools) {
+$.getJSON("https://gist.githubusercontent.com/raechelportelli/91c6caf9af3daf85a7a2fe1eec079a10/raw/28c42649557d8e286c54bc9ef97af4c17bafdd96/secondEd.geojson",
+ function(data) {
  
-geojsonLayer.addData(Schools);
-
-
-var heatData = [Schools];
+geojsonLayer.addData(data);
+	
+var heatData = [];
 	geojsonLayer.eachLayer(function(layer) {
 		var latlng = layer.getLatLng();
 		var value = layer.value;
 		heatData.push([latlng.lat, latlng.lng, value]);
 	});
-    
+	
 var heatLayer = L.heatLayer(heatData, {
 				radius: 100,
 				blur: 10,
@@ -80,7 +79,7 @@ var heatLayer = L.heatLayer(heatData, {
 					1.0: 'red'}
         
 			}).addTo(map);
-		});
+		});	
 </script>
 </body>
 </html>
