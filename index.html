@@ -59,7 +59,7 @@ geojsonLayer.addData(data);
 
 
 var heatData = [];
-	geojsonLayer.eachLayer(function(Schools) {
+	geojsonLayer.eachLayer(function(layer) {
 		var latlng = layer.getLatLng();
 		var value = layer.value;
 		heatData.push([latlng.lat, latlng.lng, value]);
