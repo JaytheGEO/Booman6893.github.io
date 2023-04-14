@@ -1,105 +1,72 @@
 <html>
-<head>
-  <title>Lab 4</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-     crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="leaflet-heat.js"></script>
-   <style>
-.info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
+<head> 
+   <title>Lab 4</title> 
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"              
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>                              
+       <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script> 
+
+<style>
+.info { 
+padding: 6px 8px; 
+font: 14px/16px Arial, Helvetica, sans-serif; 
+background: white; 
+background: rgba(255,255,255,0.8); 
+box-shadow: 0 0 15px rgba(0,0,0,0.2); 
+border-radius: 5px;
 }
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
+
+.info h4 { 
+     margin: 0 0 5px;
+     color: #777;
 } 
 
 .legend {
 text-align: left; line-height: 18px; color: #555; }
 .legend i {
-width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }  
+width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; } 
+</style> 
 
-</style>
-
-  
-  <style>
-
-    #map{ width: 600px; height: 400px; }
+<style>
+ #map{ width: 600px; height: 400px; } 
   </style>
+
 </head> 
 
 <body> 
 
-  <div id="map"></div>
-<script
-       src="http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js">
-    </script>
-<script type="text/javascript" src="secondEd.geojson"></script>
-  <script> 
+<div id="map"></div>
+<script type="text/javascript" src="Lab2.js"></script>
+<script type="text/javascript" src="secondEd.geojson"></script> 
+<script> 
 
-  // initialize the map
-  var map = L.map('map').setView([40, -89], 6); 
+// initialize the map 
+var map = L.map('map').setView([40, -89], 6); 
 
-  // load a tile layer
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map); 
+// load a tile layer
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map); 
 
-  
-  
-$.getJSON("https://gist.githubusercontent.com/raechelportelli/91c6caf9af3daf85a7a2fe1eec079a10/raw/28c42649557d8e286c54bc9ef97af4c17bafdd96/secondEd.geojson",
-function(data) {
+var popup = L.popup(); function onMapClick(e) { popup .setLatLng(e.latlng) .setContent("You clicked the map at " + e.latlng.toString()) .openOn(map);} map.on('click', onMapClick); var info = L.control(); info.onAdd = function (map) { this._div = L.DomUtil.create('div', 'info'); 
 
-var geojsonLayer = L.geoJSON(null, {
+// create a div with a class "info" this
+.update(); return this._div;}; info.update = function (IllioisGJSON) { const contents = IllioisGJSON ? `<b>${IllioisGJSON.Clean_data_NormBach} %</b><br />${IllioisGJSON.Clean_data_CountyName}` : 'Hover over a county'; this._div.innerHTML = `<h4>Population with Bachelor's Degree</h4>${contents}`;}; info.addTo(map); 
 
+//function formats the shape color based on the attribute d's value 
 
+//Choropleth Color & Classification 
+Settingfunction getColor(Clean_data_NormBach) {return Clean_data_NormBach > 35.19 ? '#BD0026' :Clean_data_NormBach > 22.91 ? '#E31A1C' :Clean_data_NormBach > 12.87 ? '#FC4E2A' :Clean_data_NormBach > 0 ? '#FD8D3C' :'#FFEDA0';}function style(feature) {return {fillColor: getColor(feature.properties.Clean_data_NormBach), 
 
+//color by EdNorm attribute from your fileweight: 0.5, //line weightopacity: 1, //line opacitycolor: 'white', //line colorfillOpacity: 0.7 //shape file};}//INTERACTION - Highlightfunction highlightFeature(Clean_data_NormBach) {const layer = Clean_data_NormBach.target;layer.setStyle({weight: 5,color: '#666',dashArray: '',fillOpacity: 0.7}); layer.bringToFront();info.update(layer.feature.properties);}
+const geojson = L.geoJson(IllioisGJSON, {style,onEachFeature}).addTo(map); 
 
-			onEachFeature: function(feature) {
+function resetHighlight(Clean_data_NormBach) {geojson.resetStyle(Clean_data_NormBach.target);info.update();}
+function zoomToFeature(Clean_data_NormBach) {map.fitBounds(Clean_data_NormBach.target.getBounds());}
+function onEachFeature(feature, layer) {layer.on({mouseover: highlightFeature,mouseout: resetHighlight,click: zoomToFeature});}
 
+// LEGEND//locates the legend in the bottom right of the mapconst 
+legend = L.control({position: 'bottomright'});
+//adds the legend to the map in a <div>legend
+.onAdd = function (map) {const div = L.DomUtil.create('div', 'info legend');const grades = [0, 12.87, 22.91, 35.19];const labels = [];let from, to;for (let i = 0; i < grades.length; i++) {from = grades[i];to = grades[i + 1];labels.push(`<i style="background:${getColor(from + 1)}"></i> ${from}${to ? `&ndash;${to}` : '+'}`+'%');}div.innerHTML = labels.join('<br>');return div;};legend.addTo(map);
 
-				// Optional: add popups or other interactions to each feature
-
-
-			}
-
-
-		}).addTo(map);
-
-geojsonLayer.addData(data);
-
-
-var heatData = [];
-geojsonLayer.eachLayer(function(layer) {
-var latlng = layer.getLatLng();
-var value = layer.value;
-heatData.push([latlng.lat, latlng.lng, value]);
-});
-
-var heatLayer = L.heatLayer(heatData, {
-radius: 100,
-blur: 10,
-opacity: 1,
-maxZoom: 17,
-max: 4.0,
-
-gradient: {
-0.0: 'green',
-0.5: 'yellow',
-1.0: 'red'}
-        
-}).addTo(map);
-});
 </script>
 </body>
 </html>
-
